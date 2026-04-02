@@ -5,6 +5,8 @@ from rich.console import Console
 from core.can_engine import CanEngine
 from core.report_gen import generate_html_report
 from tests.test_latency import TestLatency
+from tests.test_throughput import TestThroughput 
+from tests.test_robustness import TestRobustness
 
 console = Console()
 
@@ -23,6 +25,8 @@ def main():
     
     test_suite = [
         TestLatency(engine, config),
+        TestThroughput(engine, config),
+        TestRobustness(engine, config)
     ]
     
     results = []
