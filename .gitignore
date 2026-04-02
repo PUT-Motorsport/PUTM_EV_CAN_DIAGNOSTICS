@@ -1,22 +1,36 @@
-# Środowiska wirtualne
+# ─── Środowiska wirtualne ───
 venv/
 env/
 .env/
+.venv/
 
-# Cache i pliki tymczasowe Pythona
+# ─── Cache i pliki tymczasowe Pythona ───
 __pycache__/
 *.py[cod]
 *$py.class
 .pytest_cache/
 
-# Wygenerowane raporty testów (nowy folder)
+# ─── Generowane raporty testów ───
 reports/
 *.html
+*.png
+*.pdf
 
-# Ustawienia edytorów (VSCode, PyCharm)
+# ─── Surowe zrzuty ruchu CAN (Trace'y z folderu logs) ───
+logs/
+*.asc
+*.trc
+*.csv
+*.log
+
+# ─── Pliki tymczasowe i konfiguracyjne specyficzne dla użytkownika ───
+# config.yaml normalnie trzymamy w repozytorium, ale jeśli kiedyś zrobisz 
+# prywatną konfigurację, dodaj tu np.: config_local.yaml
+
+# ─── Ustawienia edytorów (VS Code, PyCharm itp.) ───
 .vscode/
 .idea/
 
-# Pliki systemowe (np. Windows / macOS)
+# ─── Pliki systemowe (Windows / macOS) ───
 Thumbs.db
 .DS_Store
