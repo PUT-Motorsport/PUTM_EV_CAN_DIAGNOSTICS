@@ -1,0 +1,22 @@
+# Środowiska wirtualne
+venv/
+env/
+.env/
+
+# Cache i pliki tymczasowe Pythona
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Wygenerowane raporty testów (nowy folder)
+reports/
+*.html
+
+# Ustawienia edytorów (VSCode, PyCharm)
+.vscode/
+.idea/
+
+# Pliki systemowe (np. Windows / macOS)
+Thumbs.db
+.DS_Store
