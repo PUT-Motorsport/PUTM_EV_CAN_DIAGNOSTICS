@@ -78,19 +78,23 @@ class LibraryFullValidator:
             "actual": "System stabilny" if alive else "CRASH: Brak reakcji po błędnym DLC"
         }
 
-    def _test_unknown_id(self):
-        """d) Sprawdzenie, czy filtry sprzętowe/programowe ignorują obce ID."""
-        unknown_id = 0x7EE  # ID, którego nie powinno być w DBC urządzenia
-        self.engine.send(can.Message(arbitration_id=unknown_id, data=[0]*8))
+    def _test_unknown_id(self, unknown_id=0x7EE):
+        # 1. Wysyłamy obce ID używając obiektu z python-can
+        msg = can.Message(
+            arbitration_id=unknown_id, 
+            data=[0, 0, 0, 0, 0, 0, 0, 0], 
+            is_extended_id=False
+        )
+        self.engine.send(msg)
         
-        # Oczekujemy, że biblioteka NIC nie odeśle
-        rx = self.engine.recv(0.1)
-        passed = rx is None
-        return {
-            "name": "Nieznane ID (d)", 
-            "passed": passed, 
-            "actual": "Zignorowano poprawnie" if passed else "BŁĄD: Wykryto odpowiedź na obce ID"
-        }
+        # 2. Nasłuchujemy krótko, czy płytka w ogóle zareaguje na to ID
+        rx_msg = self.engine.recv(0.15) 
+        
+        if rx_msg is not None:
+            # Tester wykrył jakikolwiek ruch po wysłaniu obcego ID (nawet jeśli to naturalny ruch płytki)
+            return {"status": "FAIL", "actual": f"BŁĄD: Wykryto odpowiedź po obcym ID: 0x{rx_msg.arbitration_id:03X}"}
+            
+        return {"status": "PASS", "actual": "Brak reakcji na obce ID (Filtry OK)"}
 
     def _test_malformed_frame(self):
         """c) Reakcja na ramkę o zerowej długości danych."""

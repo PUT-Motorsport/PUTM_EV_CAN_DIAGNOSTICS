@@ -1,16 +1,31 @@
-# Ustawienia magistrali
+# --- KONFIGURACJA SPRZĘTOWA ---
 bus:
-  interface: "virtual"
-  channel: "virtual0"
+  interface: "kvaser"
+  channel: 0
   bitrate: 1000000
 
-# Parametry testowanego układu (Device Under Test - DUT)
-dut:
-  rx_id: 0x100      # ID, na które STM32 oczekuje wiadomości
-  tx_id: 0x101      # ID, na którym STM32 odsyła odpowiedzi
-  timeout_ms: 50    # Maksymalny czas oczekiwania na reakcję biblioteki
+# --- WYBÓR AKTYWNEGO TESTU ---
+# Zmień tę nazwę, aby przełączyć się na inną płytkę z listy poniżej
+active_target: "Frontbox"
 
-# Foldery wyjściowe
+# --- PROFILE URZĄDZEŃ (Dynamiczna część) ---
+targets:
+  Frontbox:
+    rx_frame: "Rearbox_Safety"    # Co tester wysyła (Watchdog dla FB)
+    tx_frame: "Pc_MainData"       # Co tester odbiera (Dane z FB)
+    timeout_ms: 150
+
+  BMS_LV:
+    rx_frame: "Dashboard"         # Przykładowa ramka sterująca
+    tx_frame: "Bms_LV_main"       # Dane z BMS
+    timeout_ms: 100
+
+  Inverter_Rear:
+    rx_frame: "AmkRearLeftSetpoints1"
+    tx_frame: "AmkRearLeftActualValues1"
+    timeout_ms: 20
+
+# --- ŚCIEŻKI ---
 paths:
   logs: "logs"
   reports: "reports"
